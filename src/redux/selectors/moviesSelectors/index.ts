@@ -1,0 +1,1 @@
+export {getSearchString} from './moviesSelectors';

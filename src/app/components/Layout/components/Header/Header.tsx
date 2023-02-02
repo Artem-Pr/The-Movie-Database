@@ -1,17 +1,16 @@
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {SearchOutlined} from '@ant-design/icons';
 import {Input} from 'antd';
 import {Header as AntHeader} from 'antd/es/layout/layout';
 import debounce from 'lodash.debounce';
 
-import {getSearchString} from 'src/redux/selectors/sessionSelectors/sessionSelector';
+import {getSearchString} from 'src/redux/selectors/moviesSelectors';
 
 import styles from './Header.module.scss';
 
 export const Header = () => {
-    const dispatch = useDispatch();
     const searchValue = useSelector(getSearchString);
     const debouncedFunc = debounce((value: string) => console.info(value), 500);
 

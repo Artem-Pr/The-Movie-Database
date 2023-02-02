@@ -2,10 +2,10 @@
 import {createSlice} from '@reduxjs/toolkit';
 import type {PayloadAction} from '@reduxjs/toolkit';
 
-import {initialState} from './sessionState';
+import {initialState} from './moviesState';
 
-const sessionSlice = createSlice({
-    name: 'session',
+const moviesSlice = createSlice({
+    name: 'movies',
     initialState,
     reducers: {
         setSearchString(state, action: PayloadAction<string>) {
@@ -14,8 +14,8 @@ const sessionSlice = createSlice({
     },
 });
 
-export const sessionReducer = sessionSlice.reducer;
+export const moviesReducer = moviesSlice.reducer;
 
 export const {
     setSearchString,
-} = sessionSlice.actions;
+} = moviesSlice.actions;

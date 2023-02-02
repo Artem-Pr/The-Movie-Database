@@ -1,8 +1,8 @@
 import {combineReducers} from '@reduxjs/toolkit';
 
-import {sessionReducer} from '../reducers';
+import {moviesReducer} from '../reducers';
 
-const rootReducer = combineReducers({sessionReducer});
+const rootReducer = combineReducers({moviesReducer});
 
 export type RootState = ReturnType<typeof rootReducer>;
 

@@ -1,1 +1,1 @@
-export {sessionReducer} from './sessionReducer';
+export {moviesReducer} from './moviesReducer';
