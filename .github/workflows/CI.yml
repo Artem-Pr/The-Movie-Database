@@ -46,6 +46,9 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
+      - name: Install package dependencies
+        run: npm ci
+
       - name: Execute test cases
         run: npm run test
 
