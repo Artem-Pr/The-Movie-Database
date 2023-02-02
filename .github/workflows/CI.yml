@@ -1,0 +1,95 @@
+name: CI
+run-name: ${{ github.actor }} is pushed changes
+on: push
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout to the repository
+        uses: actions/checkout@v3
+
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install package dependencies
+        run: npm ci
+
+      - name: Check linting and formatting
+        run: npm run lint
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout to the repository
+        uses: actions/checkout@v3
+
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Jest coverage report
+        uses: ArtiomTr/jest-coverage-report-action@v2.1.2
+        id: coverage
+        with:
+          output: report-markdown
+          test-script: npm test
+
+      - name: Sticky Pull Request Comment
+        uses: marocchino/sticky-pull-request-comment@v2.3.1
+        with:
+          message: ${{ steps.coverage.outputs.report }}
+
+  build:
+    needs: [lint, test]
+    continue-on-error: true
+    strategy:
+      matrix:
+        node-version: [19]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout to the repository
+        uses: actions/checkout@v3
+
+      - name: Set up NodeJS environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install package dependencies
+        run: npm ci
+
+      - name: Create test build
+        run: npm run build
