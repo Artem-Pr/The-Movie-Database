@@ -1,0 +1,13 @@
+.contentWrapper {
+  grid-template-rows: 64px calc(100vh - 64px);
+
+  .logo {
+    color: white;
+    line-height: 31px;
+    font-weight: 600;
+    font-size: 2.2rem;
+    width: 120px;
+    height: 31px;
+    margin: 16px 24px 16px 0;
+  }
+}
