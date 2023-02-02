@@ -5,23 +5,18 @@ jest.mock('react-router-dom', () => ({
     Outlet: () => <div>Outlet</div>
 }))
 
-jest.mock('@ant-design/icons', () => ({
-    SearchOutlined: () => <div/>
+jest.mock('./components', () => ({
+    Header: () => <div>Header</div>
 }))
 
 jest.mock('antd', () => ({
-    Input: () => <div>Input</div>,
     Layout: ({children}: any) => <div>{children}</div>
-}))
-
-jest.mock('antd/es/layout/layout', () => ({
-    Header: ({children}: any) => <div>{children}</div>
 }))
 
 
 describe('Layout', () => {
-    it('should render search Input', () => {
+    it('should render Outlet', () => {
         const {getByText} = render(<Layout/>)
-        expect(getByText('Input')).toBeInTheDocument()
+        expect(getByText('Outlet')).toBeInTheDocument()
     })
 })

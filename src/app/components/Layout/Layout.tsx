@@ -1,24 +1,16 @@
 import React from 'react';
 import {Outlet} from 'react-router-dom';
 
-import {SearchOutlined} from '@ant-design/icons';
-import {Input, Layout as AntdLayout} from 'antd';
-import {Header} from 'antd/es/layout/layout';
+import {Layout as AntdLayout} from 'antd';
 import cn from 'classnames';
+
+import {Header} from './components';
 
 import styles from './Layout.module.scss';
 
 export const Layout = () => (
     <AntdLayout className={cn(styles.contentWrapper, 'h-100vh d-grid')}>
-        <Header className="d-flex justify-between">
-            <div className={styles.logo}>MovieDB</div>
-            <div>
-                <Input
-                    placeholder="Search the movie"
-                    prefix={<SearchOutlined />}
-                />
-            </div>
-        </Header>
+        <Header />
         <Outlet />
     </AntdLayout>
 );
