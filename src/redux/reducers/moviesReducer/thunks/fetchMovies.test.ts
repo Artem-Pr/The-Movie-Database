@@ -4,6 +4,7 @@ import {
     setMoviesArray,
     setTotalPages,
     setCurrentPage,
+    setSearchString,
 } from '../moviesSlice';
 
 jest.mock('src/api/API', () => ({
@@ -15,6 +16,7 @@ jest.mock('../moviesSlice', () => ({
     setMoviesArray: jest.fn(),
     setTotalPages: jest.fn(),
     setCurrentPage: jest.fn(),
+    setSearchString: jest.fn(),
 }))
 
 describe('normalizeTotalPages', () => {
@@ -29,7 +31,7 @@ describe('normalizeTotalPages', () => {
 })
 
 describe('fetchMovies', () => {
-    it('should call API.getPopularMovies', async () => {
+    it('should call API.getMovies', async () => {
         const mockedDispatch = (func: () => {}) => func
         const mockedGetState = () => ({
             moviesReducer: {movies: {page: 0, moviesList: []}}
@@ -40,7 +42,7 @@ describe('fetchMovies', () => {
         expect(API.getMovies).toHaveBeenCalled()
     });
     
-    it('should not call dispatch if API.getPopularMovies returns undefined', async () => {
+    it('should call dispatch only one time if API.getMovies returns undefined', async () => {
         (API.getMovies as jest.Mock).mockImplementation(() => undefined)
         
         const mockedDispatch = jest.fn((func: () => {}) => func)
@@ -50,11 +52,22 @@ describe('fetchMovies', () => {
     
         const thunkFunc = fetchMovies({isFirstPage: true}) as any
         thunkFunc(mockedDispatch, mockedGetState)
-        expect(mockedDispatch).not.toHaveBeenCalled()
+        expect(mockedDispatch).toBeCalledTimes(1)
+    });
+    
+    it('should call setSearchString with parameter "mockedQuery"', async () => {
+        const mockedDispatch = (func: () => {}) => func
+        const mockedGetState = () => ({
+            moviesReducer: {movies: {page: 0, moviesList: []}}
+        })
+        
+        const thunkFunc = fetchMovies({query: 'mockedQuery'}) as any
+        await thunkFunc(mockedDispatch, mockedGetState)
+        expect(setSearchString).toHaveBeenCalledWith('mockedQuery')
     });
     
     it(`should call setMoviesArray with parameter ["results"]
-    if API.getPopularMovies returns mockedResults and isFirstPage === true`, async () => {
+    if API.getMovies returns mockedResults and isFirstPage === true`, async () => {
         const mockedResults = {results: ["mockedResults"]};
         const isFirstPage = true;
         (API.getMovies as jest.Mock).mockImplementation(() => mockedResults)
@@ -70,7 +83,7 @@ describe('fetchMovies', () => {
     });
     
     it(`should call setMoviesArray with parameter ["previousPageResults","currentPageResults"]
-    if API.getPopularMovies returns mockedResults and isFirstPage === undefined`, async () => {
+    if API.getMovies returns mockedResults and isFirstPage === undefined`, async () => {
         const mockedCurrentPageResults = {results: ["currentPageResults"]};
         const mockedPreviousPageMoviesList = ['previousPageResults'];
         const isFirstPage = undefined;
@@ -86,7 +99,7 @@ describe('fetchMovies', () => {
         expect(setMoviesArray).toHaveBeenCalledWith(["previousPageResults","currentPageResults"])
     });
     
-    it('should call setTotalPages with parameter "500" if API.getPopularMovies returns mockedResults', async () => {
+    it('should call setTotalPages with parameter "500" if API.getMovies returns mockedResults', async () => {
         const mockedResults = {total_pages: 964};
         (API.getMovies as jest.Mock).mockImplementation(() => mockedResults)
         
@@ -100,7 +113,7 @@ describe('fetchMovies', () => {
         expect(setTotalPages).toHaveBeenCalledWith(500)
     });
     
-    it('should call setCurrentPage with parameter 5 if API.getPopularMovies returns {page: 5}', async () => {
+    it('should call setCurrentPage with parameter 5 if API.getMovies returns {page: 5}', async () => {
         (API.getMovies as jest.Mock).mockImplementation(() => ({page: 5}))
         
         const mockedDispatch = (func: () => {}) => func
