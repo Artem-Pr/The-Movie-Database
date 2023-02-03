@@ -1,1 +1,0 @@
-export {getPopularMovies} from './getPopularMovies';

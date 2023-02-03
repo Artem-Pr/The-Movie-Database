@@ -17,7 +17,7 @@ export const fetchNextPopularMovies = (isFirstPage?: true): AppThunk => (
         const {page, moviesList} = getState().moviesReducer.movies;
         const nextPage = page + 1;
 
-        const newMoviesEntity = await API.getPopularMovies(nextPage);
+        const newMoviesEntity = await API.getMovies(nextPage);
 
         newMoviesEntity?.page && dispatch(setCurrentPage(newMoviesEntity.page));
 

@@ -2,7 +2,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 import type {PayloadAction} from '@reduxjs/toolkit';
 
-import type {MovieRequest} from 'src/api/getPopularMovies/types';
+import type {MovieRequest} from 'src/api/getMovies/types';
 
 import {initialState} from './moviesState';
 

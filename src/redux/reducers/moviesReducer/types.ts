@@ -1,4 +1,4 @@
-import type {MovieRequest} from 'src/api/getPopularMovies/types';
+import type {MovieRequest} from 'src/api/getMovies/types';
 
 export interface Movies {
     page: number,

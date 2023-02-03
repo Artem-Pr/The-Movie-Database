@@ -1,5 +1,5 @@
-import {getPopularMovies} from './getPopularMovies';
+import {getMovies} from './getMovies';
 
 export const API = {
-    getPopularMovies,
+    getMovies,
 };
