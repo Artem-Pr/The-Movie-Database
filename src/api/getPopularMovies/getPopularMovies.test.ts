@@ -18,20 +18,21 @@ const mockedAxiosInstance = axiosInstance as jest.Mocked<typeof axiosInstance>
 
 describe('getPopularMovies', () => {
     it('should call axiosInstance.get', async () => {
-        await getPopularMovies()
+        await getPopularMovies(0)
         expect(axiosInstance.get).toHaveBeenCalled()
     })
     
-    it('should call axiosInstance.get with parameter "/movie/popular"', async () => {
-        await getPopularMovies();
-        expect(axiosInstance.get).toHaveBeenCalledWith("/movie/popular")
+    it('should call axiosInstance.get with parameters ("/movie/popular", mockedSecondParam)', async () => {
+        const mockedSecondParam = {params: {page: 0}}
+        await getPopularMovies(0);
+        expect(axiosInstance.get).toHaveBeenCalledWith("/movie/popular", mockedSecondParam)
     })
     
     it('should call errorNotification with parameters (Error, "Error loading movies")', async () => {
         mockedAxiosInstance.get.mockRejectedValue({
             message: 'Error',
         });
-        await getPopularMovies();
+        await getPopularMovies(0);
         expect(errorNotification).toHaveBeenCalledWith(new Error('Error'), 'Error loading movies')
     })
 })

@@ -1,10 +1,15 @@
 import React from 'react'
 import {render, screen, waitFor} from '@testing-library/react';
 import {MainPage} from './MainPage';
-import {fetchPopularMovies} from 'src/redux/reducers/moviesReducer/thunks';
+import {fetchNextPopularMovies} from 'src/redux/reducers/moviesReducer/thunks';
 import {getSearchString} from 'src/redux/selectors/moviesSelectors';
 
+jest.mock('react-infinite-scroll-component', () => (
+    ({children}: any) => <div>{children}</div>
+))
+
 jest.mock('antd', () => ({
+    Divider: () => <div>Divider</div>,
     List: () => <div>List</div>,
     Typography: {
         Title: ({children}: any) => <div>{children}</div>
@@ -12,7 +17,7 @@ jest.mock('antd', () => ({
 }))
 
 jest.mock('src/redux/reducers/moviesReducer/thunks', () => ({
-    fetchPopularMovies: jest.fn(),
+    fetchNextPopularMovies: jest.fn(),
 }))
 
 jest.mock('src/redux/selectors/moviesSelectors', () => ({
@@ -34,6 +39,11 @@ const mockedDispatch = jest.fn();
 jest.mock('src/redux/store', () => ({
     useAppDispatch: () => mockedDispatch,
 }))
+
+jest.mock('./helpers', () => ({
+    getSkeleton: () => 'mockedSkeleton',
+}))
+
 
 describe('MainPage', () => {
     it('should render List',  async () => {
@@ -72,7 +82,7 @@ describe('MainPage', () => {
         );
         
         waitFor(() => (
-            expect(fetchPopularMovies).toHaveBeenCalled()
+            expect(fetchNextPopularMovies).toHaveBeenCalled()
         ));
     })
 })

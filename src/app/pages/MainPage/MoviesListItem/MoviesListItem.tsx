@@ -1,14 +1,15 @@
 import React from 'react';
 
 import {StarOutlined} from '@ant-design/icons';
-import {
-    List,
-    Skeleton,
-} from 'antd';
+import {List} from 'antd';
 
 import {POSTERS_PREVIEW_BASE_URL} from 'src/redux/reducers/moviesReducer/moviesState';
 
+import {getSkeleton} from '../helpers';
+
 import styles from './MoviesListItem.module.scss';
+
+const skeletonList = getSkeleton(1);
 
 interface Props {
     loading: boolean
@@ -47,12 +48,7 @@ export const MoviesListItem = React.memo(({
         }
     >
         {loading
-            ? (
-                <div className="d-flex gap-20 align-center">
-                    <Skeleton active />
-                    <Skeleton.Image active />
-                </div>
-            )
+            ? skeletonList
             : (
                 <>
                     <List.Item.Meta

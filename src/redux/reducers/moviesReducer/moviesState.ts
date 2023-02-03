@@ -6,7 +6,9 @@ interface State {
 }
 
 export const PAGE_SIZE = 20;
+export const MAX_NUMBER_OF_PAGES = 500;
 export const POSTERS_PREVIEW_BASE_URL = 'https://image.tmdb.org/t/p/w92';
+
 const moviesListForSkeleton = Array.from({length: 3})
     .map((__, idx) => ({
         adult: false,
@@ -28,8 +30,8 @@ const moviesListForSkeleton = Array.from({length: 3})
 export const initialState: State = {
     searchString: '',
     movies: {
-        page: 1,
+        page: 0,
         moviesList: moviesListForSkeleton,
-        totalPages: 1,
+        totalPages: 0,
     },
 };

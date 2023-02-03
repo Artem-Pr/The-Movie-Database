@@ -9,15 +9,16 @@ jest.mock('antd', () => {
     const MockedList: any = {
         Item: ({actions, extra, children}: any) => <div>{actions}{extra}{children}</div>
     }
-    const MockedSkeleton: any = () => <div>Skeleton</div>
     MockedList.Item.Meta = () => <div>List.Item.Meta</div>
-    MockedSkeleton.Image = () => <div>Skeleton.Image</div>
     
     return {
         List: MockedList,
-        Skeleton: MockedSkeleton
     }
 })
+
+jest.mock('../helpers', () => ({
+    getSkeleton: () => 'MockedSkeleton',
+}))
 
 const mockedProps = {
     loading: true,
@@ -56,7 +57,7 @@ describe('MoviesListItem', () => {
             render(
                 <MoviesListItem {...mockedProps}/>
             )
-            expect(screen.getByText('Skeleton')).toBeInTheDocument()
+            expect(screen.getByText('MockedSkeleton')).toBeInTheDocument()
         })
         it('should not render List.Item', () => {
             render(

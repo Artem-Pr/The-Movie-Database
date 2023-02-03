@@ -1,1 +1,1 @@
-export {fetchPopularMovies} from './fetchPopularMovies';
+export {fetchNextPopularMovies} from './fetchNextPopularMovies';

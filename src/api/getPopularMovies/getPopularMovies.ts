@@ -4,9 +4,11 @@ import {axiosInstance} from '../config';
 
 import type {MoviesListRequest} from './types';
 
-export const getPopularMovies = async () => {
+export const getPopularMovies = async (page: number) => {
     try {
-        const response = await axiosInstance.get<MoviesListRequest>('/movie/popular');
+        const response = await axiosInstance.get<MoviesListRequest>('/movie/popular', {
+            params: {page},
+        });
         return response.data;
     } catch (error) {
         console.error(error);
