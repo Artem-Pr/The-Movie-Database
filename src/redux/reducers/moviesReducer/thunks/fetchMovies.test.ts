@@ -1,4 +1,4 @@
-import {fetchNextPopularMovies, normalizeTotalPages} from './fetchNextPopularMovies';
+import {fetchMovies, normalizeTotalPages} from './fetchMovies';
 import {API} from 'src/api/API';
 import {
     setMoviesArray,
@@ -8,7 +8,7 @@ import {
 
 jest.mock('src/api/API', () => ({
     API: {
-        getPopularMovies: jest.fn()
+        getMovies: jest.fn()
     }
 }))
 jest.mock('../moviesSlice', () => ({
@@ -28,14 +28,14 @@ describe('normalizeTotalPages', () => {
     })
 })
 
-describe('fetchNextPopularMovies', () => {
+describe('fetchMovies', () => {
     it('should call API.getPopularMovies', async () => {
         const mockedDispatch = (func: () => {}) => func
         const mockedGetState = () => ({
             moviesReducer: {movies: {page: 0, moviesList: []}}
         })
         
-        const thunkFunc = fetchNextPopularMovies(true) as any
+        const thunkFunc = fetchMovies({isFirstPage: true}) as any
         thunkFunc(mockedDispatch, mockedGetState)
         expect(API.getMovies).toHaveBeenCalled()
     });
@@ -47,8 +47,8 @@ describe('fetchNextPopularMovies', () => {
         const mockedGetState = () => ({
             moviesReducer: {movies: {page: 0, moviesList: []}}
         })
-        
-        const thunkFunc = fetchNextPopularMovies(true) as any
+    
+        const thunkFunc = fetchMovies({isFirstPage: true}) as any
         thunkFunc(mockedDispatch, mockedGetState)
         expect(mockedDispatch).not.toHaveBeenCalled()
     });
@@ -63,8 +63,8 @@ describe('fetchNextPopularMovies', () => {
         const mockedGetState = () => ({
             moviesReducer: {movies: {page: 0, moviesList: []}}
         })
-        
-        const thunkFunc = fetchNextPopularMovies(isFirstPage) as any
+    
+        const thunkFunc = fetchMovies({isFirstPage}) as any
         await thunkFunc(mockedDispatch, mockedGetState)
         expect(setMoviesArray).toHaveBeenCalledWith(['mockedResults'])
     });
@@ -80,8 +80,8 @@ describe('fetchNextPopularMovies', () => {
         const mockedGetState = () => ({
             moviesReducer: {movies: {page: 0, moviesList: mockedPreviousPageMoviesList}}
         })
-        
-        const thunkFunc = fetchNextPopularMovies(isFirstPage) as any
+    
+        const thunkFunc = fetchMovies({isFirstPage}) as any
         await thunkFunc(mockedDispatch, mockedGetState)
         expect(setMoviesArray).toHaveBeenCalledWith(["previousPageResults","currentPageResults"])
     });
@@ -95,7 +95,7 @@ describe('fetchNextPopularMovies', () => {
             moviesReducer: {movies: {page: 0, moviesList: []}}
         })
         
-        const thunkFunc = fetchNextPopularMovies() as any
+        const thunkFunc = fetchMovies({}) as any
         await thunkFunc(mockedDispatch, mockedGetState)
         expect(setTotalPages).toHaveBeenCalledWith(500)
     });
@@ -108,7 +108,7 @@ describe('fetchNextPopularMovies', () => {
             moviesReducer: {movies: {page: 0, moviesList: []}}
         })
         
-        const thunkFunc = fetchNextPopularMovies() as any
+        const thunkFunc = fetchMovies({}) as any
         await thunkFunc(mockedDispatch, mockedGetState)
         expect(setCurrentPage).toHaveBeenCalledWith(5)
     });

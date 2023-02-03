@@ -10,7 +10,7 @@ import {
 import cn from 'classnames';
 
 import {MAX_NUMBER_OF_PAGES, PAGE_SIZE} from 'src/redux/reducers/moviesReducer/moviesState';
-import {fetchNextPopularMovies} from 'src/redux/reducers/moviesReducer/thunks';
+import {fetchMovies} from 'src/redux/reducers/moviesReducer/thunks';
 import {getMoviesList, getSearchString} from 'src/redux/selectors/moviesSelectors';
 import {useAppDispatch} from 'src/redux/store';
 
@@ -31,7 +31,7 @@ export const MainPage = () => {
     useEffect(() => {
         const dispatchMovies = async () => {
             setLoading(true);
-            await dispatch(fetchNextPopularMovies(true));
+            await dispatch(fetchMovies({isFirstPage: true}));
             setLoading(false);
         };
 
@@ -39,7 +39,7 @@ export const MainPage = () => {
     }, [dispatch]);
 
     const fetchNextPage = () => {
-        void dispatch(fetchNextPopularMovies());
+        void dispatch(fetchMovies({}));
     };
 
     const hasMoreScrollData = moviesList.length < PAGE_SIZE * MAX_NUMBER_OF_PAGES;

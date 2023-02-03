@@ -1,7 +1,7 @@
 import React from 'react'
 import {render, screen, waitFor} from '@testing-library/react';
 import {MainPage} from './MainPage';
-import {fetchNextPopularMovies} from 'src/redux/reducers/moviesReducer/thunks';
+import {fetchMovies} from 'src/redux/reducers/moviesReducer/thunks';
 import {getSearchString} from 'src/redux/selectors/moviesSelectors';
 
 jest.mock('react-infinite-scroll-component', () => (
@@ -17,7 +17,7 @@ jest.mock('antd', () => ({
 }))
 
 jest.mock('src/redux/reducers/moviesReducer/thunks', () => ({
-    fetchNextPopularMovies: jest.fn(),
+    fetchMovies: jest.fn(),
 }))
 
 jest.mock('src/redux/selectors/moviesSelectors', () => ({
@@ -82,7 +82,7 @@ describe('MainPage', () => {
         );
         
         waitFor(() => (
-            expect(fetchNextPopularMovies).toHaveBeenCalled()
+            expect(fetchMovies).toHaveBeenCalled()
         ));
     })
 })
