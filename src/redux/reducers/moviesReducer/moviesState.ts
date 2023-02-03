@@ -5,7 +5,6 @@ interface State {
     movies: Movies
 }
 
-export const PAGE_SIZE = 20;
 export const MAX_NUMBER_OF_PAGES = 500;
 export const POSTERS_PREVIEW_BASE_URL = 'https://image.tmdb.org/t/p/w92';
 

@@ -1,5 +1,9 @@
 import React from 'react'
-import {render, screen, waitFor} from '@testing-library/react';
+import {
+    render,
+    screen,
+    waitFor,
+} from '@testing-library/react';
 import {MainPage} from './MainPage';
 import {fetchMovies} from 'src/redux/reducers/moviesReducer/thunks';
 import {getSearchString} from 'src/redux/selectors/moviesSelectors';
@@ -44,6 +48,7 @@ jest.mock('./helpers', () => ({
     getSkeleton: () => 'mockedSkeleton',
 }))
 
+Element.prototype.scrollIntoView = jest.fn();
 
 describe('MainPage', () => {
     it('should render List',  async () => {

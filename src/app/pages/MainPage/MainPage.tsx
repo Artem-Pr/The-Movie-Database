@@ -1,4 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {useSelector} from 'react-redux';
 
@@ -9,7 +13,6 @@ import {
 } from 'antd';
 import cn from 'classnames';
 
-import {MAX_NUMBER_OF_PAGES, PAGE_SIZE} from 'src/redux/reducers/moviesReducer/moviesState';
 import {fetchMovies} from 'src/redux/reducers/moviesReducer/thunks';
 import {getMoviesList, getSearchString} from 'src/redux/selectors/moviesSelectors';
 import {useAppDispatch} from 'src/redux/store';
@@ -23,45 +26,46 @@ const {Title} = Typography;
 const skeletonList = getSkeleton(3);
 
 export const MainPage = () => {
+    const wrapperRef = useRef<HTMLDivElement | null>(null);
     const dispatch = useAppDispatch();
     const searchString = useSelector(getSearchString);
-    const {moviesList} = useSelector(getMoviesList);
+    const {moviesList, page, totalPages} = useSelector(getMoviesList);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const dispatchMovies = async () => {
             setLoading(true);
-            await dispatch(fetchMovies({isFirstPage: true}));
+            await dispatch(fetchMovies({isFirstPage: true, query: searchString}));
             setLoading(false);
+            wrapperRef.current?.scrollIntoView();
         };
 
         void dispatchMovies();
-    }, [dispatch]);
+    }, [dispatch, searchString]);
 
     const fetchNextPage = () => {
-        void dispatch(fetchMovies({}));
+        void dispatch(fetchMovies({query: searchString}));
     };
-
-    const hasMoreScrollData = moviesList.length < PAGE_SIZE * MAX_NUMBER_OF_PAGES;
 
     return (
         <div
             id="scrollableDiv"
             className={cn(styles.wrapper, 'd-flex')}
         >
-            <div className={cn(styles.content, 'mw-auto')}>
-                {!searchString && (
-                    <Title
-                        level={2}
-                        className="text-center"
-                    >
-                        Popular movies
-                    </Title>
-                )}
+            <div
+                ref={wrapperRef}
+                className={cn(styles.content, 'mw-auto')}
+            >
+                <Title
+                    level={2}
+                    className="text-center"
+                >
+                    {searchString ? 'Searching results' : 'Popular movies'}
+                </Title>
                 <InfiniteScroll
                     dataLength={moviesList.length}
                     next={fetchNextPage}
-                    hasMore={hasMoreScrollData}
+                    hasMore={page < totalPages}
                     loader={(
                         <div className="m-10 p-10">
                             {skeletonList}

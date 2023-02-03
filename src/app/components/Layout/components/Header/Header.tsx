@@ -1,21 +1,29 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
 
 import {SearchOutlined} from '@ant-design/icons';
 import {Input} from 'antd';
 import {Header as AntHeader} from 'antd/es/layout/layout';
 import debounce from 'lodash.debounce';
 
-import {getSearchString} from 'src/redux/selectors/moviesSelectors';
+import {fetchMovies} from 'src/redux/reducers/moviesReducer/thunks';
+import {useAppDispatch} from 'src/redux/store';
 
 import styles from './Header.module.scss';
 
+const DEBOUNCE_SEARCH_FUNC_DELAY = 500;
+
 export const Header = () => {
-    const searchValue = useSelector(getSearchString);
-    const debouncedFunc = debounce((value: string) => console.info(value), 500);
+    const dispatch = useAppDispatch();
+
+    const debouncedSearchFunc = debounce((searchString: string) => {
+        dispatch(fetchMovies({
+            query: searchString,
+            isFirstPage: true,
+        }));
+    }, DEBOUNCE_SEARCH_FUNC_DELAY);
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        debouncedFunc(event.target.value);
+        debouncedSearchFunc(event.target.value);
     };
 
     return (
@@ -25,7 +33,6 @@ export const Header = () => {
                 <Input
                     placeholder="Search the movie"
                     prefix={<SearchOutlined />}
-                    value={searchValue}
                     onChange={handleSearchChange}
                 />
             </div>
