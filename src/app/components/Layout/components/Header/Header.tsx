@@ -19,7 +19,7 @@ export const Header = () => {
     };
 
     return (
-        <AntHeader className="d-flex justify-between">
+        <AntHeader className="d-flex justify-between gap-20">
             <div className={styles.logo}>MovieDB</div>
             <div>
                 <Input

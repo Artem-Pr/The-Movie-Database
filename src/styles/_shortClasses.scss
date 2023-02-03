@@ -14,6 +14,10 @@
   justify-self: end;
 }
 
+.justify-self-center {
+  justify-self: center;
+}
+
 .justify-between {
   justify-content: space-between;
 }
@@ -30,6 +34,10 @@
   flex-direction: column;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .h-100vh {
   height: 100vh;
 }
@@ -40,6 +48,10 @@
 
 .gap-10 {
   gap: 10px
+}
+
+.gap-20 {
+  gap: 20px
 }
 
 .mw-auto {

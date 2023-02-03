@@ -1,1 +1,4 @@
-export {getSearchString} from './moviesSelectors';
+export {
+    getSearchString,
+    getMoviesList,
+} from './moviesSelectors';

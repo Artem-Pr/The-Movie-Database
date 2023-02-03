@@ -8,21 +8,18 @@ import {
 import {RoutePaths} from 'src/globalTypes';
 
 import {Layout} from './components';
+import {MainPage} from './pages/MainPage';
 
 const App = () => (
     <BrowserRouter>
         <Routes>
             <Route
                 path={RoutePaths.MAIN}
-                element={(
-                    <Layout />
-                )}
+                element={<Layout />}
             >
                 <Route
                     index
-                    element={(
-                        <h1>Main</h1>
-                    )}
+                    element={<MainPage />}
                 />
                 <Route
                     path={RoutePaths.DESCRIPTION}

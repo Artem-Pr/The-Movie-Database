@@ -5,7 +5,7 @@ import {setMoviesArray, setTotalPages} from '../moviesSlice';
 
 const MAX_NUMBER_OF_PAGES = 500;
 
-const normalizeTotalPages = (totalPages: number) => (
+export const normalizeTotalPages = (totalPages: number) => (
     totalPages > MAX_NUMBER_OF_PAGES ? MAX_NUMBER_OF_PAGES : totalPages
 );
 
