@@ -1,12 +1,13 @@
 import {errorNotification} from 'src/utils/notifications';
 
+import {RequestsUrlList} from '../RequestsUrlList';
 import {axiosInstance} from '../config';
 
 import type {MoviesListRequest} from './types';
 
 export const getPopularMovies = async (page: number) => {
     try {
-        const response = await axiosInstance.get<MoviesListRequest>('/movie/popular', {
+        const response = await axiosInstance.get<MoviesListRequest>(RequestsUrlList.POPULAR_MOVIES, {
             params: {page},
         });
         return response.data;
