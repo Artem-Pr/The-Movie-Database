@@ -17,13 +17,13 @@ jest.mock('lodash.debounce', () => (
     (fn: any) => (searchString: string) => fn(searchString)
 ))
 
-const mockedDispatch = jest.fn();
+const mockedDispatch = () => {};
 jest.mock('src/redux/store', () => ({
     useAppDispatch: () => mockedDispatch,
 }))
 
-jest.mock('src/redux/reducers/moviesReducer/thunks', () => ({
-    fetchMovies: jest.fn()
+jest.mock('src/redux/reducers/moviesReducer', () => ({
+    setSearchString: () => {}
 }))
 
 describe('Header', () => {

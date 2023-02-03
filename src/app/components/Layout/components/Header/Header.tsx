@@ -5,7 +5,7 @@ import {Input} from 'antd';
 import {Header as AntHeader} from 'antd/es/layout/layout';
 import debounce from 'lodash.debounce';
 
-import {fetchMovies} from 'src/redux/reducers/moviesReducer/thunks';
+import {setSearchString} from 'src/redux/reducers/moviesReducer';
 import {useAppDispatch} from 'src/redux/store';
 
 import styles from './Header.module.scss';
@@ -16,10 +16,7 @@ export const Header = () => {
     const dispatch = useAppDispatch();
 
     const debouncedSearchFunc = debounce((searchString: string) => {
-        dispatch(fetchMovies({
-            query: searchString,
-            isFirstPage: true,
-        }));
+        dispatch(setSearchString(searchString));
     }, DEBOUNCE_SEARCH_FUNC_DELAY);
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -31,6 +31,6 @@ export const initialState: State = {
     movies: {
         page: 0,
         moviesList: moviesListForSkeleton,
-        totalPages: 0,
+        totalPages: 1,
     },
 };
