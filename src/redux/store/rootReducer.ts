@@ -1,8 +1,14 @@
 import {combineReducers} from '@reduxjs/toolkit';
 
-import {moviesReducer} from '../reducers';
+import {
+    moviesReducer,
+    movieDetailsReducer,
+} from '../reducers';
 
-const rootReducer = combineReducers({moviesReducer});
+const rootReducer = combineReducers({
+    moviesReducer,
+    movieDetailsReducer,
+});
 
 export type RootState = ReturnType<typeof rootReducer>;
 
