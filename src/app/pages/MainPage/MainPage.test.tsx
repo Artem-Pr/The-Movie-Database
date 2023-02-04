@@ -48,10 +48,18 @@ jest.mock('./helpers', () => ({
     getSkeleton: () => 'mockedSkeleton',
 }))
 
+jest.mock('react-infinite-scroll-component', () => (
+    ({children}: any) => <div>{children}</div>
+));
+
+jest.mock('react-router-dom', () => ({
+    useNavigate: () => () => {},
+}))
+
 Element.prototype.scrollIntoView = jest.fn();
 
 describe('MainPage', () => {
-    it('should render List',  async () => {
+    it('should render',  async () => {
         render(
             <MainPage />
         );
@@ -60,7 +68,7 @@ describe('MainPage', () => {
         expect(MockedList).toBeInTheDocument();
     })
     
-    it('should render Title if searchString === ""',  async () => {
+    it('should render "Popular movies" if searchString === ""',  async () => {
         const mockedSearchString = '';
         (getSearchString as jest.Mock).mockImplementation(() => mockedSearchString);
         render(
@@ -71,14 +79,14 @@ describe('MainPage', () => {
         expect(MockedTitle).toBeInTheDocument()
     })
     
-    it('should not render Title if searchString !== ""',  async () => {
+    it('should render "Searching results" if searchString !== ""',  async () => {
         (getSearchString as jest.Mock).mockImplementation(() => 'mockedSearchString');
         render(
             <MainPage />
         );
     
-        const MockedTitle = await waitFor(() => screen.queryByText('Popular movies'))
-        expect(MockedTitle).not.toBeInTheDocument()
+        const MockedTitle = await waitFor(() => screen.getByText('Searching results'))
+        expect(MockedTitle).toBeInTheDocument()
     })
     
     it('should call fetchPopularMovies',() => {
@@ -89,5 +97,16 @@ describe('MainPage', () => {
         waitFor(() => (
             expect(fetchMovies).toHaveBeenCalled()
         ));
+    })
+    
+    it('should render mockedSkeleton if loading === true', async () => {
+        render(
+            <MainPage />
+        );
+    
+        await waitFor(() => {
+            screen.getByText('mockedSkeleton')
+            expect(screen.getByText('mockedSkeleton')).toBeInTheDocument();
+        })
     })
 })

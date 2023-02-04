@@ -14,11 +14,10 @@ import {
 } from 'antd';
 import cn from 'classnames';
 
+import {RoutePaths} from 'src/globalTypes/RoutePaths';
 import {fetchMovies} from 'src/redux/reducers/moviesReducer/thunks';
 import {getMoviesList, getSearchString} from 'src/redux/selectors/moviesSelectors';
 import {useAppDispatch} from 'src/redux/store';
-
-import {RoutePaths} from '../../../globalTypes/RoutePaths';
 
 import {MoviesListItem} from './MoviesListItem';
 import {getSkeleton} from './helpers';

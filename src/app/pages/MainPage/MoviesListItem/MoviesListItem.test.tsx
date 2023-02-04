@@ -6,18 +6,21 @@ jest.mock('@ant-design/icons', () => ({
 }))
 
 jest.mock('antd', () => {
+    const MockedSkeleton: any = () => <div>Skeleton</div>
     const MockedList: any = {
         Item: ({actions, extra, children}: any) => <div>{actions}{extra}{children}</div>
     }
     MockedList.Item.Meta = () => <div>List.Item.Meta</div>
+    MockedSkeleton.Image = () => <div>Skeleton.Image</div>
     
     return {
         List: MockedList,
+        Skeleton: MockedSkeleton,
     }
 })
 
-jest.mock('../helpers', () => ({
-    getSkeleton: () => 'MockedSkeleton',
+jest.mock('src/utils/imageOnLoad', () => ({
+    imageOnLoad: () => {}
 }))
 
 const mockedProps = {
@@ -37,57 +40,31 @@ describe('MoviesListItem', () => {
         )
     })
     
-    describe('if loading === true', () => {
-        it('should not render "actions"', () => {
-            render(
-                <MoviesListItem {...mockedProps}/>
-            )
-            expect(screen.queryByText('StarOutlinedIcon')).not.toBeInTheDocument()
-        })
-        it('should not render "extra"', () => {
-            render(
-                <MoviesListItem {...mockedProps}/>
-            )
-            expect(screen.queryByAltText('mockedTitle')).not.toBeInTheDocument()
-        })
-        it('should render Skeleton', () => {
-            render(
-                <MoviesListItem {...mockedProps}/>
-            )
-            expect(screen.getByText('MockedSkeleton')).toBeInTheDocument()
-        })
-        it('should not render List.Item', () => {
-            render(
-                <MoviesListItem {...mockedProps}/>
-            )
-            expect(screen.queryByText('List.Item.Meta')).not.toBeInTheDocument()
-        })
+    it('should render "actions"', () => {
+        render(
+            <MoviesListItem {...mockedProps}/>
+        )
+        expect(screen.getByText('StarOutlinedIcon')).toBeInTheDocument()
     })
     
-    describe('if loading === false', () => {
-        it('should render "actions"', () => {
-            render(
-                <MoviesListItem {...mockedProps}/>
-            )
-            expect(screen.getByText('StarOutlinedIcon')).toBeInTheDocument()
-        })
-        it('should render "extra"', () => {
-            render(
-                <MoviesListItem {...mockedProps}/>
-            )
-            expect(screen.getByAltText('mockedTitle')).toBeInTheDocument()
-        })
-        it('should not render Skeleton', () => {
-            render(
-                <MoviesListItem {...mockedProps}/>
-            )
-            expect(screen.queryByText('Skeleton')).not.toBeInTheDocument()
-        })
-        it('should render List.Item', () => {
-            render(
-                <MoviesListItem {...mockedProps}/>
-            )
-            expect(screen.getByText('List.Item.Meta')).toBeInTheDocument()
-        })
+    it('should render "extra"', () => {
+        render(
+            <MoviesListItem {...mockedProps}/>
+        )
+        expect(screen.getByAltText('mockedTitle')).toBeInTheDocument()
+    })
+    
+    it('should not render Skeleton', () => {
+        render(
+            <MoviesListItem {...mockedProps}/>
+        )
+        expect(screen.queryByText('Skeleton')).not.toBeInTheDocument()
+    })
+    
+    it('should render List.Item', () => {
+        render(
+            <MoviesListItem {...mockedProps}/>
+        )
+        expect(screen.getByText('List.Item.Meta')).toBeInTheDocument()
     })
 })
