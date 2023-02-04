@@ -1,0 +1,1 @@
+export {prepareMovieProperties} from './prepareMovieProperties';
