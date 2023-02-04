@@ -3,6 +3,7 @@
   margin-bottom: 20px;
 
   .gridWrapper {
+    width: 100%;
     max-width: 900px;
     margin: 20px;
     grid-template-columns: minmax(30%, 300px) minmax(auto, 600px);
@@ -38,7 +39,13 @@
     width: 100%;
     align-items: center;
     justify-content: center;
-    background: #d7d7d7;
+    justify-self: center;
+    background: var(--placeholder-backround);
+
+    @media (max-width: 625px) {
+      width: 200px;
+      height: 300px;
+    }
 
     img {
       height: 150px;
