@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import {useSelector} from 'react-redux';
 import {useNavigate, useParams} from 'react-router-dom';
 
 import {
@@ -7,6 +8,10 @@ import {
     Typography,
 } from 'antd';
 import cn from 'classnames';
+
+import {fetchMovieDetails} from 'src/redux/reducers/movieDetailsReducer/thunks';
+import {getMovieDetails, getMovieProperties} from 'src/redux/selectors/movieDetailsSelectors';
+import {useAppDispatch} from 'src/redux/store';
 
 import styles from './DetailsPage.module.scss';
 
@@ -19,11 +24,19 @@ const {
 
 export const DetailsPage = () => {
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const {
+        title,
+        posterPath,
+        overview,
+        homepage,
+    } = useSelector(getMovieDetails);
+    const movieProperties = useSelector(getMovieProperties);
     const {id} = useParams();
 
     useEffect(() => {
-        id && console.info(id);
-    }, [id]);
+        id && dispatch(fetchMovieDetails(id));
+    }, [dispatch, id]);
 
     const handleBackButton = () => {
         navigate(-1);
@@ -42,8 +55,8 @@ export const DetailsPage = () => {
 
                 <img
                     className={styles.image}
-                    alt="titleImage"
-                    src="https://image.tmdb.org/t/p/w300/dm06L9pxDOL9jNSK4Cb6y139rrG.jpg"
+                    alt={title}
+                    src={posterPath}
                 />
 
                 <div className={styles.titleProp}>
@@ -51,21 +64,21 @@ export const DetailsPage = () => {
                         className="mt-0"
                         level={2}
                     >
-                        While vacationing at a remote cabin
+                        {title}
                     </Title>
 
                     <Descriptions
                         column={1}
                         labelStyle={{fontWeight: 'bold'}}
                     >
-                        <Descriptions.Item label="Genres">
-                            <Text type="secondary">horror, mystery, thriller</Text>
-                        </Descriptions.Item>
-                        <Descriptions.Item label="Vote average">horror, mystery, thriller</Descriptions.Item>
-                        <Descriptions.Item label="Vote count">horror, mystery, thriller</Descriptions.Item>
-                        <Descriptions.Item label="Release date">horror, mystery, thriller</Descriptions.Item>
-                        <Descriptions.Item label="Runtime">horror, mystery, thriller</Descriptions.Item>
-                        <Descriptions.Item label="Budget">horror, mystery, thriller</Descriptions.Item>
+                        {movieProperties.map(({name, value}) => (
+                            <Descriptions.Item
+                                key={name}
+                                label={name}
+                            >
+                                <Text type="secondary">{value}</Text>
+                            </Descriptions.Item>
+                        ))}
                     </Descriptions>
                 </div>
 
@@ -74,19 +87,15 @@ export const DetailsPage = () => {
                         Overview
                     </Title>
                     <Paragraph>
-                        While vacationing at a remote cabin,
-                        a young girl and her two fathers are taken hostage by four
-                        armed strangers who demand that the family make an unthinkable choice
-                        to avert the apocalypse. With limited access to the outside world,
-                        the family must decide what they believe before all is lost.
+                        {overview}
                     </Paragraph>
                     <div className="d-flex gap-10">
                         <Text>Homepage:</Text>
                         <Link
-                            href="https://www.knockatthecabin.com/"
+                            href={homepage}
                             target="_blank"
                         >
-                            https://www.knockatthecabin.com/
+                            {homepage}
                         </Link>
                     </div>
                 </div>
