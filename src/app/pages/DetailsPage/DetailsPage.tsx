@@ -14,6 +14,7 @@ import imgPlaceholder from 'src/assets/images/image-placeholder.svg';
 import {fetchMovieDetails} from 'src/redux/reducers/movieDetailsReducer/thunks';
 import {getMovieDetails, getMovieProperties} from 'src/redux/selectors/movieDetailsSelectors';
 import {useAppDispatch} from 'src/redux/store';
+import {imageOnLoad} from 'src/utils/imageOnLoad';
 
 import styles from './DetailsPage.module.scss';
 
@@ -25,7 +26,7 @@ const {
 } = Typography;
 
 const handleImageOnLoad = (loading: boolean) => (event: SyntheticEvent<HTMLImageElement>) => {
-    !loading && event.currentTarget.classList.remove('d-none');
+    !loading && imageOnLoad(event);
 };
 
 export const DetailsPage = () => {

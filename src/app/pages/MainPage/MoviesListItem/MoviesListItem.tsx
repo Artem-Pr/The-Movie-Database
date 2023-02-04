@@ -1,9 +1,11 @@
 import React from 'react';
 
 import {StarOutlined} from '@ant-design/icons';
-import {List} from 'antd';
+import {List, Skeleton} from 'antd';
+import cn from 'classnames';
 
 import {POSTERS_PREVIEW_BASE_URL} from 'src/redux/reducers/moviesReducer/moviesState';
+import {imageOnLoad} from 'src/utils/imageOnLoad';
 
 import styles from './MoviesListItem.module.scss';
 
@@ -41,11 +43,16 @@ export const MoviesListItem = React.memo(({
                 </div>,
             ]}
             extra={(
-                <img
-                    width={100}
-                    alt={title}
-                    src={`${POSTERS_PREVIEW_BASE_URL}${posterPath}`}
-                />
+                <>
+                    <img
+                        className={cn(styles.image, 'd-none')}
+                        width={100}
+                        alt={title}
+                        src={`${POSTERS_PREVIEW_BASE_URL}${posterPath}`}
+                        onLoad={imageOnLoad}
+                    />
+                    <Skeleton.Image className={cn(styles.imgPlaceholder, 'align-center')} />
+                </>
             )}
         >
             <List.Item.Meta

@@ -79,7 +79,7 @@ export const MainPage = () => {
                     )
                     : (
                         <InfiniteScroll
-                            className={styles.infiniteScroll}
+                            className={cn(styles.infiniteScroll, 'pb-10')}
                             dataLength={moviesList.length}
                             next={fetchNextPage}
                             hasMore={page < totalPages}
@@ -90,7 +90,7 @@ export const MainPage = () => {
                                     </div>
                                 )
                                 : ''}
-                            endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+                            endMessage={<Divider className="mh-20 d-flex" plain>It is all, nothing more 🤐</Divider>}
                             scrollableTarget="scrollableDiv"
                         >
                             <List

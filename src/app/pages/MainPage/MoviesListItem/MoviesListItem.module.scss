@@ -12,4 +12,15 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  .imgPlaceholder {
+    display: none;
+    height: 150px;
+  }
+
+  .image {
+    &:global.d-none + :local.imgPlaceholder {
+      display: flex;
+    }
+  }
 }
