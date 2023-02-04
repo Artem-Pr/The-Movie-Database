@@ -5,7 +5,7 @@ import type {PropertyListItem} from 'src/app/pages/DetailsPage';
 import {DateFormats} from 'src/globalTypes/DateFormats';
 import type {MovieDetails} from 'src/redux/reducers/movieDetailsReducer/types';
 
-const getGenresString = (movieGenders: MovieGenre[]) => (
+export const getGenresString = (movieGenders: MovieGenre[]) => (
     movieGenders.reduce((accum, gender) => (
         `${accum ? `${accum}, ` : ''}${gender.name}`
     ), '')
