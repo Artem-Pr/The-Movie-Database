@@ -12,9 +12,6 @@ const movieDetails = createSlice({
         setMovieDetails(state, action: PayloadAction<MovieDetails>) {
             state.details = action.payload;
         },
-        setLoading(state, action: PayloadAction<boolean>) {
-            state.loading = action.payload;
-        },
     },
 });
 
@@ -22,5 +19,4 @@ export const movieDetailsReducer = movieDetails.reducer;
 
 export const {
     setMovieDetails,
-    setLoading,
 } = movieDetails.actions;

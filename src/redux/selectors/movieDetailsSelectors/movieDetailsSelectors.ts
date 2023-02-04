@@ -7,7 +7,6 @@ import type {RootState} from '../../store/rootReducer';
 import {prepareMovieProperties} from './helpers/prepareMovieProperties';
 
 export const getMovieDetails = (state: RootState) => state.movieDetailsReducer.details;
-export const getMovieDetailsLoading = (state: RootState) => state.movieDetailsReducer.loading;
 
 export const getMovieProperties: (state: RootState) => PropertyListItem[] = createSelector(
     getMovieDetails,
