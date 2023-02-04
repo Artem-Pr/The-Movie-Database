@@ -1,5 +1,3 @@
-import {errorNotification} from 'src/utils/notifications';
-
 import {RequestsUrlList} from '../RequestsUrlList';
 import {axiosInstance} from '../config';
 
@@ -10,8 +8,7 @@ export const getMovieDetails = async (id: string) => {
         const response = await axiosInstance.get<MovieDetailsRequest>(`${RequestsUrlList.MOVIE_DETAILS}/${id}`);
         return response.data;
     } catch (error) {
-        console.error(error);
-        errorNotification(new Error((error as Error).message), 'Error loading movie details');
+        window.location.replace('/');
         return undefined;
     }
 };
