@@ -31,7 +31,7 @@ describe('normalizeTotalPages', () => {
 })
 
 describe('fetchMovies', () => {
-    it('should call API.getMovies', async () => {
+    it('should call API.getMovies',() => {
         const mockedDispatch = (func: () => {}) => func
         const mockedGetState = () => ({
             moviesReducer: {movies: {page: 0, moviesList: []}}
