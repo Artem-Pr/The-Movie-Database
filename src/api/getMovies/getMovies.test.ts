@@ -16,7 +16,7 @@ jest.spyOn(console, "error").mockImplementation(() => {})
 
 const mockedAxiosInstance = axiosInstance as jest.Mocked<typeof axiosInstance>
 
-describe('getPopularMovies', () => {
+describe('getMovies', () => {
     it('should call axiosInstance.get', async () => {
         await getMovies(0)
         expect(axiosInstance.get).toHaveBeenCalled()

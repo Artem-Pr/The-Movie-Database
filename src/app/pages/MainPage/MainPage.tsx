@@ -79,6 +79,7 @@ export const MainPage = () => {
                     )
                     : (
                         <InfiniteScroll
+                            className={styles.infiniteScroll}
                             dataLength={moviesList.length}
                             next={fetchNextPage}
                             hasMore={page < totalPages}

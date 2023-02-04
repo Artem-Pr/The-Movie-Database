@@ -1,6 +1,10 @@
 .wrapper {
   overflow-y: auto;
 
+  .infiniteScroll {
+    overflow: initial !important;
+  }
+
   .content {
     max-width: 900px;
     width: 100%;
