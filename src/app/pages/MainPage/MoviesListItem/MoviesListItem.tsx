@@ -5,60 +5,56 @@ import {List} from 'antd';
 
 import {POSTERS_PREVIEW_BASE_URL} from 'src/redux/reducers/moviesReducer/moviesState';
 
-import {getSkeleton} from '../helpers';
-
 import styles from './MoviesListItem.module.scss';
 
-const skeletonList = getSkeleton(1);
-
 interface Props {
-    loading: boolean
+    id: number
     title: string
     posterPath: string
     releaseDate: string
     overview: string
     voteAverage: number
+    onListItemClick: (movieId: number) => void
 }
 
 export const MoviesListItem = React.memo(({
-    loading,
+    id,
     title,
     posterPath,
     releaseDate,
     overview,
     voteAverage,
-}: Props) => (
-    <List.Item
-        actions={!loading
-            ? [
+    onListItemClick,
+}: Props) => {
+    const handleListItemClick = () => {
+        onListItemClick(id);
+    };
+
+    return (
+        <List.Item
+            className={styles.wrapper}
+            onClick={handleListItemClick}
+            actions={[
                 <div key="list-vertical-star-o">
                     <StarOutlined />
                     <span className="ml-10">{voteAverage}</span>
                 </div>,
-            ]
-            : undefined}
-        extra={
-            !loading && (
+            ]}
+            extra={(
                 <img
                     width={100}
                     alt={title}
                     src={`${POSTERS_PREVIEW_BASE_URL}${posterPath}`}
                 />
-            )
-        }
-    >
-        {loading
-            ? skeletonList
-            : (
-                <>
-                    <List.Item.Meta
-                        title={title}
-                        description={releaseDate}
-                    />
-                    <p className={styles.overview}>
-                        {overview}
-                    </p>
-                </>
             )}
-    </List.Item>
-));
+        >
+            <List.Item.Meta
+                title={title}
+                description={releaseDate}
+            />
+            <p className={styles.overview}>
+                {overview}
+            </p>
+        </List.Item>
+    );
+});

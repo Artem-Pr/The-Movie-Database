@@ -5,6 +5,7 @@ import React, {
 } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {useSelector} from 'react-redux';
+import {useNavigate} from 'react-router-dom';
 
 import {
     Divider,
@@ -17,6 +18,8 @@ import {fetchMovies} from 'src/redux/reducers/moviesReducer/thunks';
 import {getMoviesList, getSearchString} from 'src/redux/selectors/moviesSelectors';
 import {useAppDispatch} from 'src/redux/store';
 
+import {RoutePaths} from '../../../globalTypes/RoutePaths';
+
 import {MoviesListItem} from './MoviesListItem';
 import {getSkeleton} from './helpers';
 
@@ -27,6 +30,7 @@ const skeletonList = getSkeleton(3);
 
 export const MainPage = () => {
     const wrapperRef = useRef<HTMLDivElement | null>(null);
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const searchString = useSelector(getSearchString);
     const {moviesList, page, totalPages} = useSelector(getMoviesList);
@@ -47,6 +51,10 @@ export const MainPage = () => {
         void dispatch(fetchMovies({query: searchString}));
     };
 
+    const onNavigateToDetails = (movieId: number) => {
+        navigate(`${RoutePaths.DETAILS}/${movieId}`);
+    };
+
     return (
         <div
             id="scrollableDiv"
@@ -62,35 +70,47 @@ export const MainPage = () => {
                 >
                     {searchString ? 'Searching results' : 'Popular movies'}
                 </Title>
-                <InfiniteScroll
-                    dataLength={moviesList.length}
-                    next={fetchNextPage}
-                    hasMore={page < totalPages}
-                    loader={(
+
+                {loading
+                    ? (
                         <div className="m-10 p-10">
                             {skeletonList}
                         </div>
-                    )}
-                    endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
-                    scrollableTarget="scrollableDiv"
-                >
-                    <List
-                        itemLayout="vertical"
-                        size="large"
-                        dataSource={moviesList}
-                        renderItem={item => (
-                            <MoviesListItem
-                                key={item.id}
-                                loading={loading}
-                                title={item.title}
-                                posterPath={item.poster_path}
-                                releaseDate={item.release_date}
-                                overview={item.overview}
-                                voteAverage={item.vote_average}
+                    )
+                    : (
+                        <InfiniteScroll
+                            dataLength={moviesList.length}
+                            next={fetchNextPage}
+                            hasMore={page < totalPages}
+                            loader={moviesList.length
+                                ? (
+                                    <div className="m-10 p-10">
+                                        {skeletonList}
+                                    </div>
+                                )
+                                : ''}
+                            endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+                            scrollableTarget="scrollableDiv"
+                        >
+                            <List
+                                itemLayout="vertical"
+                                size="large"
+                                dataSource={moviesList}
+                                renderItem={item => (
+                                    <MoviesListItem
+                                        key={item.id}
+                                        id={item.id}
+                                        title={item.title}
+                                        posterPath={item.poster_path}
+                                        releaseDate={item.release_date}
+                                        overview={item.overview}
+                                        voteAverage={item.vote_average}
+                                        onListItemClick={onNavigateToDetails}
+                                    />
+                                )}
                             />
-                        )}
-                    />
-                </InfiniteScroll>
+                        </InfiniteScroll>
+                    )}
             </div>
         </div>
     );

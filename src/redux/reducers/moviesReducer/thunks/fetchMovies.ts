@@ -37,7 +37,7 @@ export const fetchMovies = ({query, isFirstPage}: FetchMoviesThunk): AppThunk =>
         }
 
         if (newMoviesEntity?.total_pages) {
-            const normalizedTotalPages = normalizeTotalPages(newMoviesEntity?.total_pages);
+            const normalizedTotalPages = normalizeTotalPages(newMoviesEntity.total_pages);
             dispatch(setTotalPages(normalizedTotalPages));
         }
     });

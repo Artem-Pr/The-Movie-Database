@@ -21,12 +21,13 @@ jest.mock('../helpers', () => ({
 }))
 
 const mockedProps = {
-    loading: true,
+    id: 0,
     title:'mockedTitle',
     posterPath:'mockedPosterPath',
     releaseDate:'mockedReleaseDate',
     overview:'mockedOverview',
     voteAverage: 1,
+    onListItemClick: () => {},
 }
 
 describe('MoviesListItem', () => {
@@ -37,10 +38,6 @@ describe('MoviesListItem', () => {
     })
     
     describe('if loading === true', () => {
-        beforeAll(() => {
-            mockedProps.loading = true;
-        })
-        
         it('should not render "actions"', () => {
             render(
                 <MoviesListItem {...mockedProps}/>
@@ -68,10 +65,6 @@ describe('MoviesListItem', () => {
     })
     
     describe('if loading === false', () => {
-        beforeAll(() => {
-            mockedProps.loading = false;
-        })
-        
         it('should render "actions"', () => {
             render(
                 <MoviesListItem {...mockedProps}/>
