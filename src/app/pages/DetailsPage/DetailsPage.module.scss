@@ -32,10 +32,27 @@
     grid-area: title-prop;
   }
 
+  .imgPlaceholder {
+    display: none;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    background: #d7d7d7;
+
+    img {
+      height: 150px;
+    }
+  }
+
   .image {
     max-height: 100%;
     max-width: 100%;
     grid-area: image;
+
+    &:global.d-none + :local.imgPlaceholder {
+      display: flex;
+    }
 
     @media (max-width: 625px) {
       margin-right: auto;
