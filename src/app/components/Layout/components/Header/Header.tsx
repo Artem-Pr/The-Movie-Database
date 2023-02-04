@@ -1,10 +1,12 @@
 import React from 'react';
+import {useNavigate} from 'react-router-dom';
 
 import {SearchOutlined} from '@ant-design/icons';
 import {Input} from 'antd';
 import {Header as AntHeader} from 'antd/es/layout/layout';
 import debounce from 'lodash.debounce';
 
+import {RoutePaths} from 'src/globalTypes/RoutePaths';
 import {setSearchString} from 'src/redux/reducers/moviesReducer';
 import {useAppDispatch} from 'src/redux/store';
 
@@ -14,9 +16,11 @@ const DEBOUNCE_SEARCH_FUNC_DELAY = 500;
 
 export const Header = () => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const debouncedSearchFunc = debounce((searchString: string) => {
         dispatch(setSearchString(searchString));
+        navigate(RoutePaths.MAIN);
     }, DEBOUNCE_SEARCH_FUNC_DELAY);
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {

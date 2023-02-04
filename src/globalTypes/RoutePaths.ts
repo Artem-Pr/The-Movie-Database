@@ -1,4 +1,4 @@
 export const enum RoutePaths {
     MAIN = '/',
-    DESCRIPTION = '/description',
+    DETAILS = '/details',
 }

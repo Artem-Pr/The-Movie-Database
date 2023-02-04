@@ -18,6 +18,10 @@
   justify-self: center;
 }
 
+.align-self-center {
+  align-self: center;
+}
+
 .justify-between {
   justify-content: space-between;
 }
@@ -59,12 +63,25 @@
   margin-right: auto;
 }
 
+.m-0 {
+  margin: 0 !important;
+}
+
+.mt-0 {
+  margin-top: 0 !important;
+}
+
 .m-10 {
   margin: 10px;
 }
 
 .ml-10 {
   margin-left: 10px;
+}
+
+.mh-20 {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .p-10 {

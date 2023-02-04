@@ -9,6 +9,10 @@ jest.mock('antd', () => ({
     Input: () => <div>Input</div>,
 }))
 
+jest.mock('react-router-dom', () => ({
+    useNavigate: () => () => {}
+}))
+
 jest.mock('antd/es/layout/layout', () => ({
     Header: ({children}: any) => <div>{children}</div>
 }))

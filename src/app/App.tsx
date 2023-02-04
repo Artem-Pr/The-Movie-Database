@@ -8,6 +8,7 @@ import {
 import {RoutePaths} from 'src/globalTypes';
 
 import {Layout} from './components';
+import {DetailsPage} from './pages/DetailsPage';
 import {MainPage} from './pages/MainPage';
 
 const App = () => (
@@ -22,10 +23,8 @@ const App = () => (
                     element={<MainPage />}
                 />
                 <Route
-                    path={RoutePaths.DESCRIPTION}
-                    element={(
-                        <h1>Description</h1>
-                    )}
+                    path={`${RoutePaths.DETAILS}/:id`}
+                    element={<DetailsPage />}
                 />
             </Route>
         </Routes>

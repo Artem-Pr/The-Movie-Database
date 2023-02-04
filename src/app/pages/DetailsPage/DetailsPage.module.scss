@@ -1,0 +1,50 @@
+.container {
+  overflow-y: auto;
+  margin-bottom: 20px;
+
+  .gridWrapper {
+    max-width: 900px;
+    margin: 20px;
+    grid-template-columns: minmax(30%, 300px) minmax(auto, 600px);
+    grid-template-rows: 40px minmax(100px, 450px) auto;
+    grid-template-areas:
+      "backButton title-prop"
+      "image title-prop"
+      "description description";
+
+    @media (max-width: 625px) {
+      grid-template-columns: 1fr;
+      grid-template-rows: 40px 1fr auto auto;
+      grid-template-areas:
+        "backButton"
+        "image"
+        "title-prop"
+        "description";
+    }
+  }
+
+  .buttonBack {
+    width: 150px;
+    grid-area: backButton;
+  }
+
+  .titleProp {
+    grid-area: title-prop;
+  }
+
+  .image {
+    max-height: 100%;
+    max-width: 100%;
+    grid-area: image;
+
+    @media (max-width: 625px) {
+      margin-right: auto;
+      margin-left: auto;
+      max-height: 300px;
+    }
+  }
+
+  .description {
+    grid-area: description;
+  }
+}
