@@ -11,7 +11,7 @@
     grid-template-areas:
       "backButton title-prop"
       "image title-prop"
-      "description description";
+      "overview overview";
 
     @media (max-width: 625px) {
       grid-template-columns: 1fr;
@@ -20,7 +20,7 @@
         "backButton"
         "image"
         "title-prop"
-        "description";
+        "overview";
     }
   }
 
@@ -68,7 +68,7 @@
     }
   }
 
-  .description {
-    grid-area: description;
+  .Overview {
+    grid-area: overview;
   }
 }

@@ -1,3 +1,5 @@
+import {RoutePaths} from 'src/globalTypes/RoutePaths';
+
 import {RequestsUrlList} from '../RequestsUrlList';
 import {axiosInstance} from '../config';
 
@@ -8,7 +10,7 @@ export const getMovieDetails = async (id: string) => {
         const response = await axiosInstance.get<MovieDetailsRequest>(`${RequestsUrlList.MOVIE_DETAILS}/${id}`);
         return response.data;
     } catch (error) {
-        window.location.replace('/');
+        window.location.replace(RoutePaths.MAIN);
         return undefined;
     }
 };

@@ -1,4 +1,5 @@
 import React, {
+    useCallback,
     useEffect,
     useRef,
     useState,
@@ -46,13 +47,13 @@ export const MainPage = () => {
         void dispatchMovies();
     }, [dispatch, searchString]);
 
-    const fetchNextPage = () => {
+    const fetchNextPage = useCallback(() => {
         void dispatch(fetchMovies({query: searchString}));
-    };
+    }, [dispatch, searchString]);
 
-    const onNavigateToDetails = (movieId: number) => {
+    const onNavigateToDetails = useCallback((movieId: number) => {
         navigate(`${RoutePaths.DETAILS}/${movieId}`);
-    };
+    }, [navigate]);
 
     return (
         <div
@@ -71,11 +72,7 @@ export const MainPage = () => {
                 </Title>
 
                 {loading
-                    ? (
-                        <div className="m-10 p-10">
-                            {skeletonList}
-                        </div>
-                    )
+                    ? <div className="m-10 p-10">{skeletonList}</div>
                     : (
                         <InfiniteScroll
                             className={cn(styles.infiniteScroll, 'pb-10')}
@@ -83,13 +80,11 @@ export const MainPage = () => {
                             next={fetchNextPage}
                             hasMore={page < totalPages}
                             loader={moviesList.length
-                                ? (
-                                    <div className="m-10 p-10">
-                                        {skeletonList}
-                                    </div>
-                                )
-                                : ''}
-                            endMessage={<Divider className="mh-20 d-flex" plain>It is all, nothing more 🤐</Divider>}
+                                ? <div className="m-10 p-10">{skeletonList}</div>
+                                : undefined}
+                            endMessage={moviesList.length
+                                ? <Divider className="mh-20 d-flex" plain>It is all, nothing more 🤐</Divider>
+                                : undefined}
                             scrollableTarget="scrollableDiv"
                         >
                             <List

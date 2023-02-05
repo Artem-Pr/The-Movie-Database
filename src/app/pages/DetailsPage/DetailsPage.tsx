@@ -44,11 +44,11 @@ export const DetailsPage = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const sameMovie = id === Number(paramId as string);
+        const isAlreadyLoaded = id === Number(paramId as string);
 
         const fetchDetails = async () => {
             setLoading(true);
-            !sameMovie && await dispatch(fetchMovieDetails(paramId as string));
+            !isAlreadyLoaded && await dispatch(fetchMovieDetails(paramId as string));
             setLoading(false);
         };
 
@@ -76,6 +76,7 @@ export const DetailsPage = () => {
                     src={posterPath}
                     onLoad={handleImageOnLoad(loading)}
                 />
+
                 <div className={styles.imgPlaceholder}>
                     <img
                         src={imgPlaceholder}
@@ -83,57 +84,57 @@ export const DetailsPage = () => {
                     />
                 </div>
 
-                <div className={styles.titleProp}>
-                    {loading
-                        ? <Skeleton.Input className="m-5" active />
-                        : (
-                            <Title
-                                className="mt-0"
-                                level={2}
-                            >
-                                {title}
-                            </Title>
-                        )}
-
-                    {loading
-                        ? <Skeleton paragraph={{rows: 6}} active />
-                        : (
-                            <Descriptions
-                                column={1}
-                                labelStyle={{fontWeight: 'bold'}}
-                            >
-                                {movieProperties.map(({name, value}) => (
-                                    <Descriptions.Item
-                                        key={name}
-                                        label={name}
-                                    >
-                                        <Text type="secondary">{value}</Text>
-                                    </Descriptions.Item>
-                                ))}
-                            </Descriptions>
-                        )}
-                </div>
-
                 {loading
-                    ? <Skeleton className={styles.description} active />
-                    : (
-                        <div className={styles.description}>
-                            <Title level={3}>
-                                Overview
-                            </Title>
-                            <Paragraph>
-                                {overview}
-                            </Paragraph>
-                            <div className="d-flex gap-10">
-                                <Text>Homepage:</Text>
-                                <Link
-                                    href={homepage}
-                                    target="_blank"
-                                >
-                                    {homepage}
-                                </Link>
+                    ? (
+                        <>
+                            <div className={styles.titleProp}>
+                                <Skeleton.Input className="m-5" active />
+                                <Skeleton paragraph={{rows: 6}} active />
                             </div>
-                        </div>
+                            <Skeleton className={styles.description} active />
+                        </>
+                    )
+                    : (
+                        <>
+                            <div className={styles.titleProp}>
+                                <Title
+                                    className="mt-0"
+                                    level={2}
+                                >
+                                    {title}
+                                </Title>
+
+                                <Descriptions
+                                    column={1}
+                                    labelStyle={{fontWeight: 'bold'}}
+                                >
+                                    {movieProperties.map(({name, value}) => (
+                                        <Descriptions.Item
+                                            key={name}
+                                            label={name}
+                                        >
+                                            <Text type="secondary">{value}</Text>
+                                        </Descriptions.Item>
+                                    ))}
+                                </Descriptions>
+                            </div>
+
+                            <div className={styles.Overview}>
+                                <Title level={3}>Overview</Title>
+
+                                <Paragraph>{overview}</Paragraph>
+
+                                <div className="d-flex gap-10">
+                                    <Text>Homepage:</Text>
+                                    <Link
+                                        href={homepage}
+                                        target="_blank"
+                                    >
+                                        {homepage}
+                                    </Link>
+                                </div>
+                            </div>
+                        </>
                     )}
             </div>
         </div>
