@@ -1,6 +1,8 @@
 {
+  "name": "the-movie-database",
+  "homepage": "https://artem-pr.github.io/The-Movie-Database/",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@ant-design/icons": "^5.0.0",
     "@reduxjs/toolkit": "^1.9.1",
@@ -29,7 +31,9 @@
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "lint": "eslint src/",
     "test": "react-scripts test",
-    "test-coverage": "react-scripts test --coverage --watchAll"
+    "test-coverage": "react-scripts test --coverage --watchAll",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": {
     "production": [
@@ -56,6 +60,7 @@
     "eslint-plugin-jsx-a11y": "^6.7.0",
     "eslint-plugin-react": "^7.32.0",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "gh-pages": "^5.0.0",
     "sass": "^1.57.1"
   }
 }

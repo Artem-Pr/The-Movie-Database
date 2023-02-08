@@ -12,7 +12,7 @@ import {DetailsPage} from './pages/DetailsPage';
 import {MainPage} from './pages/MainPage';
 
 const App = () => (
-    <BrowserRouter>
+    <BrowserRouter basename={RoutePaths.BASE_URL}>
         <Routes>
             <Route
                 path={RoutePaths.MAIN}
